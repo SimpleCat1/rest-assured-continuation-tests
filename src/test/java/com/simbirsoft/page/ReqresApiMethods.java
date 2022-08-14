@@ -14,18 +14,18 @@ public class ReqresApiMethods {
     private static String checkQuantity(String data) {
         String regexp = "<input name=\"itemquantity\\d{7}\" type=\"text\" value=\"\\d{1,}\" class=\"qty-input\" \\/>";
         Pattern pattern = Pattern.compile(regexp);
-        Matcher sdf = pattern.matcher(data);
-        sdf.find();
-        String quantity = sdf.group();
+        Matcher math = pattern.matcher(data);
+        math.find();
+        String quantity = math.group();
         return quantity;
     }
 
     public static Integer getQuantity(String data) {
         String regexp = "(?<=\")\\d{1,}";
         Pattern pattern = Pattern.compile(regexp);
-        Matcher sdf = pattern.matcher(checkQuantity(data));
-        sdf.find();
-        Integer integg = Integer.valueOf(sdf.group());
+        Matcher math = pattern.matcher(checkQuantity(data));
+        math.find();
+        Integer integg = Integer.valueOf(math.group());
         return integg;
     }
 }
