@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id "io.freefair.lombok" version "6.0.0-m2"
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+def junitVersion = "5.8.2"
+
+dependencies {
+    testImplementation(
+            "io.rest-assured:rest-assured:4.4.0",
+            "org.assertj:assertj-core:3.21.0",
+            "com.github.javafaker:javafaker:1.0.2",
+            "com.fasterxml.jackson.core:jackson-databind:2.11.2",
+            "org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test) {
+    systemProperties(System.getProperties())
+    useJUnitPlatform()
+
+    testLogging {
+        lifecycle {
+//            events "started", "failed"
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}
