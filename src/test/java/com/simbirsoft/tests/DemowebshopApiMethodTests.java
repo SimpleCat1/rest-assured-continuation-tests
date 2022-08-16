@@ -4,6 +4,8 @@ import com.simbirsoft.data.AddWishApiData;
 import com.simbirsoft.data.CheckWishApiData;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static com.simbirsoft.page.ReqresApiMethods.checkValue;
 import static com.simbirsoft.page.ReqresApiMethods.getQuantity;
@@ -11,6 +13,7 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DemowebshopApiMethodTests extends TestBase {
+
 
     @Test
     void addingProductToTheCart() {
@@ -31,31 +34,25 @@ public class DemowebshopApiMethodTests extends TestBase {
         assertThat(response.path("updatetopcartsectionhtml").toString()).isGreaterThanOrEqualTo(data.textCountItem);
     }
 
-    @Test
-    void addingMultipleProductsToTheCart() {
+    @CsvSource({
+            "1, 1",
+            "3, 2",
+    })
+    @ParameterizedTest
+    void addingMultipleProductsToTheCart(int amountItem, int amountTest) {
         AddWishApiData data = new AddWishApiData();
         CheckWishApiData data1 = new CheckWishApiData();
+        int numberOfCycles = 0;
 
-        Response response = given()
-                .contentType(data.contentType)
-                .cookie(cookie)
-                .body(data.body)
-                .when()
-                .post(data.url)
-                .then()
-                .statusCode(data.statusCode)
-                .extract()
-                .response();
-        Response response1 = given()
-                .contentType(data.contentType)
-                .cookie(cookie)
-                .body(data.body)
-                .when()
-                .post(data.url)
-                .then()
-                .statusCode(data.statusCode)
-                .extract()
-                .response();
+        do {
+            given()
+                    .contentType(data.contentType)
+                    .cookie(cookie)
+                    .body(data.body)
+                    .when()
+                    .post(data.url);
+            numberOfCycles += 1;
+        } while (numberOfCycles < amountTest);
         Response response2 = given()
                 .when()
                 .cookie(cookie)
@@ -65,7 +62,7 @@ public class DemowebshopApiMethodTests extends TestBase {
                 .extract()
                 .response();
 
-        assertThat(getQuantity(response2.getBody().print())).isEqualTo(data1.textQuantity);
+        assertThat(getQuantity(response2.getBody().print())).isEqualTo(amountItem);
     }
 
     @Test

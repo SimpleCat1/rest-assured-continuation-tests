@@ -9,14 +9,14 @@ import static io.restassured.RestAssured.given;
 
 public class TestBase {
     private static String baseUrl = "http://demowebshop.tricentis.com";
-    public String cookie = "Nop.customer=" + getCookieWithoutApi() + ";";
+    public static String cookie;
 
     @BeforeAll
     public static void setup() {
         RestAssured.baseURI = baseUrl;
     }
 
-    private static String getCookieWithoutApi() {
+    private static String getCookieWithApi() {
         Response response1 = given()
                 .when()
                 .post(baseUrl)
@@ -24,6 +24,11 @@ public class TestBase {
                 .statusCode(200)
                 .extract()
                 .response();
-        return response1.cookies().get("Nop.customer");
+        return "Nop.customer=" + response1.cookies().get("Nop.customer") + ";";
+    }
+
+    @BeforeAll
+    private static void jkl() {
+        cookie = getCookieWithApi();
     }
 }
