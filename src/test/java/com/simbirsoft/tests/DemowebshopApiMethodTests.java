@@ -23,9 +23,9 @@ public class DemowebshopApiMethodTests extends TestBase {
                 .contentType(data.contentType)
                 .body(data.body)
                 .when()
-                .post(data.url)
+                .post("//addproducttocart//details//72//1")
                 .then()
-                .statusCode(data.statusCode)
+                .statusCode(200)
                 .extract()
                 .response();
 
@@ -50,15 +50,15 @@ public class DemowebshopApiMethodTests extends TestBase {
                     .cookie(cookie)
                     .body(data.body)
                     .when()
-                    .post(data.url);
+                    .post("//addproducttocart//details//72//1");
             numberOfCycles += 1;
         } while (numberOfCycles < amountTest);
         Response response2 = given()
                 .when()
                 .cookie(cookie)
-                .post(data1.url)
+                .post("//cart")
                 .then()
-                .statusCode(data1.statusCode)
+                .statusCode(200)
                 .extract()
                 .response();
 
@@ -71,9 +71,9 @@ public class DemowebshopApiMethodTests extends TestBase {
 
         Response response1 = given()
                 .when()
-                .post(data1.url)
+                .post("//cart")
                 .then()
-                .statusCode(data1.statusCode)
+                .statusCode(200)
                 .extract()
                 .response();
 
