@@ -12,6 +12,7 @@ def junitVersion = "5.7.1"
 
 dependencies {
     testImplementation(
+            "org.jsoup:jsoup:1.15.3",
             "io.rest-assured:rest-assured:4.4.0",
             "org.assertj:assertj-core:3.21.0",
             "com.github.javafaker:javafaker:1.0.2",

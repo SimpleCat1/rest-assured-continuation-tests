@@ -29,9 +29,9 @@ public class DemowebshopApiMethodTests extends TestBase {
                 .extract()
                 .response();
 
-        assertThat(response.path("success").toString()).isGreaterThanOrEqualTo(data.textSuccessBuy);
-        assertThat(response.path("message").toString()).isGreaterThanOrEqualTo(data.textAnswer);
-        assertThat(response.path("updatetopcartsectionhtml").toString()).isGreaterThanOrEqualTo(data.textCountItem);
+        assertThat(response.path("success").toString()).isEqualTo(data.textSuccessBuy);
+        assertThat(response.path("message").toString()).isEqualTo(data.textAnswer);
+        assertThat(response.path("updatetopcartsectionhtml").toString()).isEqualTo(data.textCountItem);
     }
 
     @CsvSource({
@@ -41,7 +41,6 @@ public class DemowebshopApiMethodTests extends TestBase {
     @ParameterizedTest
     void addingMultipleProductsToTheCart(int amountItem, int amountTest) {
         AddWishApiData data = new AddWishApiData();
-        CheckWishApiData data1 = new CheckWishApiData();
         int numberOfCycles = 0;
 
         do {
@@ -56,7 +55,7 @@ public class DemowebshopApiMethodTests extends TestBase {
         Response response2 = given()
                 .when()
                 .cookie(cookie)
-                .post("//cart")
+                .post("/cart")
                 .then()
                 .statusCode(200)
                 .extract()
@@ -71,7 +70,7 @@ public class DemowebshopApiMethodTests extends TestBase {
 
         Response response1 = given()
                 .when()
-                .post("//cart")
+                .post("/cart")
                 .then()
                 .statusCode(200)
                 .extract()
