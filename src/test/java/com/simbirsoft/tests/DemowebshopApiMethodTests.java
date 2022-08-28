@@ -76,6 +76,6 @@ public class DemowebshopApiMethodTests extends TestBase {
                 .extract()
                 .response();
 
-        assertThat(checkValue(response1.getBody().print())).isEqualTo(data1.availabilityOfTheProductInTheCart);
+        assertThat(checkValue(response1.getBody().print())).isEqualTo(data1.lackOfTheProductInTheCart);
     }
 }
